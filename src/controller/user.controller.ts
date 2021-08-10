@@ -4,7 +4,7 @@ import {UserServices} from "../services/user.service";
 export class UserController{
     public router: Router;
     private userService: UserServices;
-deneme commit
+
     constructor(){
         this.router = Router();
         this.userService = new UserServices();
