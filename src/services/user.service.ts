@@ -1,21 +1,30 @@
-import {Request, Response} from 'express';
-import {UserRepository} from '../repository/user.repository';
-import {userdb} from '../interface/user.interface';
+import { Request, Response } from 'express';
+import { UserRepository } from '../repository/user.repository';
+import { Userdb } from '../interface/user.interface';
 // import {userSchema} from '../validation/validation_schema';
 
-export class UserServices{
+export class UserServices {
 
     private userRepository: UserRepository;
-    constructor(){
+    constructor() {
         this.userRepository = new UserRepository;
     }
 
-    public getUsers= async (req:Request, res:Response)=>{
-        this.userRepository.getUsers(req,res);
+    async getUsers(req: Request, res: Response) {
+        this.userRepository.getUsers(req, res);
     }
 
-    public  getUserbyId =async (req:Request, res:Response)=>{
-        this.userRepository.getUserbyId(req,res);
+    async getUserbyId(req: Request, res: Response) {
+        this.userRepository.getUserbyId(req, res);
+    }
+
+    async createUser(req: Request, res: Response) {
+        const userdb = req.body as Userdb;
+        this.userRepository.createUser(req, res, userdb);
+    }
+
+    async deleteUser(req: Request, res: Response) {
+        this.userRepository.deleteUser(req, res);
     }
 
 }

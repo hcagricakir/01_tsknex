@@ -1,5 +1,5 @@
-export interface userdb {
-    id: BigInteger,
-    name: string,
+export interface Userdb {
+    
+    isim: string,
     lokasyon: string
 }
