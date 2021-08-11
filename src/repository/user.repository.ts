@@ -34,7 +34,7 @@ export class UserRepository {
             userdb
         ]).then(() => { });
 
-        return res.json({
+        return res.status(200).json({
             message: 'create success',
             body: {
                 userdb: {
@@ -50,10 +50,28 @@ export class UserRepository {
         const x = parseInt(req.params.id);
         console.log("geldi");
 
-        const response = await this.knx.db("userdb").where({id:x}).del().then(() => { });
+        const response = await this.knx.db("userdb").where({ id: x }).del().then(() => { });
 
 
         return res.status(200).json(response);
     }
+    async updateUser(req: Request, res: Response): Promise<Response> {
+        const x = parseInt(req.params.id);
+        console.log("geldi update");
 
+        const response = await this.knx.db("userdb").update({
+            id: req.body.id,
+            isim: req.body.isim,
+            lokasyon: req.body.lokasyon
+
+        }).where({ id: x }).then(() => { });
+
+
+        return res.status(200).json({
+            message: 'update success',
+
+        })
+
+
+    }
 }

@@ -23,20 +23,20 @@ export class UserController {
         this.userService.createUser(req, res);
     }
 
-    // async updateUser (req: Request, res: Response){
-    //     this.userService.updateUser(req,res);
-    // }
+    public updateUser = async (req: Request, res: Response) => {
+        this.userService.updateUser(req, res);
+    }
 
-     public deleteUser  = async  (req: Request, res: Response)=>{
-          this.userService.deleteUser(req,res);
-     }
+    public deleteUser = async (req: Request, res: Response) => {
+        this.userService.deleteUser(req, res);
+    }
 
     public routes() {
         this.router.get('/', this.getUsers);
         this.router.get('/:id', this.getUserbyId);
         this.router.post('/', this.createUser);
-        // this.router.put('/:id',this.updateUser);
-        this.router.delete('/:id',this.deleteUser);
+        this.router.put('/:id', this.updateUser);
+        this.router.delete('/:id', this.deleteUser);
     }
 
 }

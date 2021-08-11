@@ -26,7 +26,10 @@ export class UserServices {
     async deleteUser(req: Request, res: Response) {
         this.userRepository.deleteUser(req, res);
     }
+    async updateUser(req: Request, res: Response) {
 
+        this.userRepository.updateUser(req, res);
+    }
 }
 
 
