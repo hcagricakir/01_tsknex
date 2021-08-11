@@ -36,7 +36,7 @@ export class UserController {
         this.router.get('/:id', this.getUserbyId);
         this.router.post('/', this.createUser);
         // this.router.put('/:id',this.updateUser);
-        //this.router.delete('/',this.deleteUser);
+        this.router.delete('/:id',this.deleteUser);
     }
 
 }

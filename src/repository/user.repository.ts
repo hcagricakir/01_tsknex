@@ -47,10 +47,10 @@ export class UserRepository {
     }
 
     async deleteUser(req: Request, res: Response): Promise<Response> {
-        const id = parseInt(req.params.id);
+        const x = parseInt(req.params.id);
         console.log("geldi");
 
-        const response = await this.knx.db("userdb").del().where('id', id);
+        const response = await this.knx.db("userdb").where({id:x}).del().then(() => { });
 
 
         return res.status(200).json(response);
