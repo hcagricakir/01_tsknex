@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '../repository/user.repository';
 import { Userdb } from '../interface/user.interface';
-// import {userSchema} from '../validation/validation_schema';
 
 export class UserServices {
 
     private userRepository: UserRepository;
+    
     constructor() {
         this.userRepository = new UserRepository;
     }
@@ -26,10 +26,11 @@ export class UserServices {
     async deleteUser(req: Request, res: Response) {
         this.userRepository.deleteUser(req, res);
     }
+
     async updateUser(req: Request, res: Response) {
 
         this.userRepository.updateUser(req, res);
     }
 }
-
+//
 

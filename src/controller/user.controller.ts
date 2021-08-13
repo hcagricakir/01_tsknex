@@ -1,6 +1,6 @@
 import { Router, Response, Request } from "express";
 import { UserServices } from "../services/user.service";
-
+// import {userSchema} from '../validation/validation_schema';
 export class UserController {
     public router: Router;
     private userService: UserServices;
@@ -38,5 +38,5 @@ export class UserController {
         this.router.put('/:id', this.updateUser);
         this.router.delete('/:id', this.deleteUser);
     }
-
+//validasyon + promise
 }

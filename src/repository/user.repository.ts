@@ -12,7 +12,7 @@ export class UserRepository {
     async getUsers(req: Request, res: Response): Promise<Response> {
         try {
             const response = await this.knx.db("userdb").select("*");
-            return res.status(200).json(response);
+            return res.status(200).json(response);//cont
         }
         catch (e) {
             console.log(e);
@@ -55,6 +55,7 @@ export class UserRepository {
 
         return res.status(200).json(response);
     }
+    
     async updateUser(req: Request, res: Response): Promise<Response> {
         const x = parseInt(req.params.id);
         console.log("geldi update");
@@ -75,3 +76,6 @@ export class UserRepository {
 
     }
 }
+
+
+//then catch yapısı eklenecek

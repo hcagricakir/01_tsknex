@@ -15,22 +15,19 @@ class Server {
         this.configuration();
         this.userController = new UserController();
         knexDB.init();
-        this.routes();
-        
+        this.routes();  
     }
 
     public configuration() {
         this.app.set('port', process.env.POSTGRES_PORT || 3000);
     }
+
     public async routes() {
         this.userController = new UserController();
 
-        this.app.get("/", (req: Request, res: Response) => {
-            res.send("hi from app.ts");
-        });
-
         this.app.use('/userdb', this.userController.router);
     }
+    
     public start() {
         this.app.listen(this.app.get('port'), () => {
             console.log(`Server ${this.app.get('port')} portundan dinleniyor. `);
