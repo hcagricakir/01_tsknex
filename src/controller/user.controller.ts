@@ -1,7 +1,7 @@
 import { Router, Response, Request, NextFunction } from "express";
 import { UserServices } from "../services/user.service";
 import schema from "../validation/user.validator";
-import Joi from 'joi';
+
 
 export class UserController {
     public router: Router;
@@ -33,7 +33,7 @@ export class UserController {
                     next(err);
                 });
         })
-            .catch((err: Joi.ValidationError) => {
+            .catch((err) => {
                 next(err);
             })
     }
@@ -48,7 +48,7 @@ export class UserController {
                     next(err);
                 });
         })
-            .catch((err: Joi.ValidationError) => {
+            .catch((err) => {
                 next(err);
             })
     }
