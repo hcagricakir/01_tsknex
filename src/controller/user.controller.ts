@@ -1,6 +1,8 @@
 import { Router, Response, Request, NextFunction } from "express";
 import { UserServices } from "../services/user.service";
-// import {userSchema} from '../validation/validation_schema';
+import schema from "../validation/user.validator";
+import Joi from 'joi';
+
 export class UserController {
     public router: Router;
     private userService: UserServices;
@@ -11,47 +13,82 @@ export class UserController {
         this.routes();
     }
 
-    // public getUsers = async (req: Request, res: Response) => {
-    //     this.userService.getUsers(req, res);
-    // }
+
 
     getAllUsers(req: Request, res: Response, next: NextFunction) {
         this.userService.getAllUsers().then((user) => {
-          return res.status(200).send(user);
+            return res.status(200).send(user);
         })
-          .catch((err) => {
-            next(err);
-          });
-      }
-
+            .catch((err) => {
+                next(err);
+            });
+    }
     getUserbyId(req: Request, res: Response, next: NextFunction) {
-        const id= parseInt(req.params.id);
-        this.userService.getUserbyId(id).then((user) => {
-          return res.status(200).send(user);
+        const id = parseInt(req.params.id);
+        schema.idControl.validateAsync({ id }).then((validatedId) => {
+            this.userService.getUserbyId(id).then((user) => {
+                return res.status(200).send(user);
+            })
+                .catch((err) => {
+                    next(err);
+                });
         })
-          .catch((err) => {
-            next(err);
-          });
-      }
-
-    public createUser = async (req: Request, res: Response) => {
-        this.userService.createUser(req, res);
+            .catch((err: Joi.ValidationError) => {
+                next(err);
+            })
+    }
+    createUser(req: Request, res: Response, next: NextFunction) {
+        const { body } = req;
+        schema.create.validateAsync(body).then((validatedUser) => {
+            this.userService.createUser(validatedUser)
+                .then((user) => {
+                    return res.status(200).send(user);
+                })
+                .catch((err) => {
+                    next(err);
+                });
+        })
+            .catch((err: Joi.ValidationError) => {
+                next(err);
+            })
+    }
+    updateUser(req: Request, res: Response, next: NextFunction) {
+        const { body } = req;
+        schema.update.validateAsync(body).then((validatedUser) => {
+            this.userService.updateUser(validatedUser)
+                .then((user) => {
+                    return res.status(200).send(user);
+                })
+                .catch((err) => {
+                    next(err);
+                });
+        })
+            .catch((err) => {
+                next(err);
+            })
+    }
+    deleteUser(req: Request, res: Response, next: NextFunction) {
+        const id = parseInt(req.params.id);
+        schema.idControl.validateAsync({ id }).then((validatedId) => {
+            this.userService.deleteUser(id).then((user) => {
+                return res.status(200).send(user);
+            })
+                .catch((err) => {
+                    next(err);
+                });
+        })
+            .catch((err) => {
+                next(err);
+            })
     }
 
-    public updateUser = async (req: Request, res: Response) => {
-        this.userService.updateUser(req, res);
-    }
-
-    public deleteUser = async (req: Request, res: Response) => {
-        this.userService.deleteUser(req, res);
-    }
 
     public routes() {
         this.router.get('/', this.getAllUsers.bind(this));
         this.router.get('/:id', this.getUserbyId.bind(this));
-        this.router.post('/', this.createUser);
-        this.router.put('/:id', this.updateUser);
-        this.router.delete('/:id', this.deleteUser);
+        this.router.post('/', this.createUser.bind(this));
+        this.router.put('/:id', this.updateUser.bind(this));
+        this.router.delete('/:id', this.deleteUser.bind(this));
     }
-//validasyon + promise
+    //validasyon + promise
 }

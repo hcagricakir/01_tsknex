@@ -1,7 +1,7 @@
 import Joi from 'joi';
-const validateSchema  =  {
+const schema = {
     idControl: Joi.object().keys({
-        id:Joi.number().min(1).required()
+        id: Joi.number().min(1).required()
     }),
     create: Joi.object().keys({
         id: Joi.number().required(),
@@ -12,8 +12,8 @@ const validateSchema  =  {
     update: Joi.object().keys({
         id: Joi.number().required(),
         isim: Joi.string().min(1).max(25).optional(),
-        lokasyon: Joi.string().min(1).max(25).optional() 
+        lokasyon: Joi.string().min(1).max(25).optional()
     }),
 }
 
-export default validateSchema;
+export default schema;
