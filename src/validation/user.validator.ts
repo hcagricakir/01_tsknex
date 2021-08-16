@@ -1,5 +1,8 @@
 import Joi from 'joi';
 const validateSchema  =  {
+    idControl: Joi.object().keys({
+        id:Joi.number().min(1).required()
+    }),
     create: Joi.object().keys({
         id: Joi.number().required(),
         isim: Joi.string().min(1).max(25).required(),
@@ -10,7 +13,7 @@ const validateSchema  =  {
         id: Joi.number().required(),
         isim: Joi.string().min(1).max(25).optional(),
         lokasyon: Joi.string().min(1).max(25).optional() 
-    })
+    }),
 }
 
 export default validateSchema;

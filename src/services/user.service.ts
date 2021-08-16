@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '../repository/user.repository';
 import { User } from '../interface/user.interface';
+import { idText } from 'typescript';
 
 export class UserServices {
 
@@ -27,8 +28,16 @@ export class UserServices {
     }
 
 
-    async getUserbyId(req: Request, res: Response) {
-        this.userRepository.getUserbyId(req, res);
+    async getUserbyId(id: number): Promise<User[]> {
+        return new Promise((resolve, reject) => {
+            this.userRepository.getUserbyId(id)
+                .then((result) => {
+                    return resolve(result);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
     }
 
     async createUser(req: Request, res: Response) {

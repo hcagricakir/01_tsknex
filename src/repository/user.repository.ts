@@ -35,11 +35,19 @@ export class UserRepository {
         })
     }
 
-    async getUserbyId(req: Request, res: Response): Promise<Response> {
-        const id = parseInt(req.params.id);
-        const response = await this.knx.db("userdb").select("*").whereRaw('id=?', [id]);
-
-        return res.status(200).json(response);
+    async getUserbyId(id: number): Promise<User[]> {
+        return new Promise(async (resolve, reject) => {
+            this.knx.db
+                .select("*")
+                .from("userdb")
+                .where("id",id)
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
     }
 
     async createUser(req: Request, res: Response, userdb: User): Promise<Response> {
