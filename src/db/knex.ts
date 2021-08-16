@@ -1,5 +1,4 @@
 import Knex from "knex";
-
 export class KnexDB{
     db!: Knex;
     private initialized!: boolean;

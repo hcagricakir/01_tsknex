@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import knexDB from '../db/knex';
 import { User } from '../interface/user.interface';
 
@@ -8,8 +7,6 @@ export class UserRepository {
     constructor() {
         this.knx = knexDB;
     }
-
-
 
     async getAllUsers(): Promise<User[]> {
 

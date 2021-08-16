@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { UserRepository } from '../repository/user.repository';
 import { User } from '../interface/user.interface';
 
