@@ -1,4 +1,4 @@
-import { Router, Response, Request } from "express";
+import { Router, Response, Request, NextFunction } from "express";
 import { UserServices } from "../services/user.service";
 // import {userSchema} from '../validation/validation_schema';
 export class UserController {
@@ -11,9 +11,18 @@ export class UserController {
         this.routes();
     }
 
-    public getUsers = async (req: Request, res: Response) => {
-        this.userService.getUsers(req, res);
-    }
+    // public getUsers = async (req: Request, res: Response) => {
+    //     this.userService.getUsers(req, res);
+    // }
+
+    getAllUsers(req: Request, res: Response, next: NextFunction) {
+        this.userService.getAllUsers().then((user) => {
+          return res.status(200).send(user);
+        })
+          .catch((err) => {
+            next(err);
+          });
+      }
 
     public getUserbyId = async (req: Request, res: Response) => {
         this.userService.getUserbyId(req, res);
@@ -32,7 +41,7 @@ export class UserController {
     }
 
     public routes() {
-        this.router.get('/', this.getUsers);
+        this.router.get('/', this.getAllUsers.bind(this));
         this.router.get('/:id', this.getUserbyId);
         this.router.post('/', this.createUser);
         this.router.put('/:id', this.updateUser);

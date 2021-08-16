@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import knexDB from '../db/knex';
-import { Userdb } from '../interface/user.interface';
+import { User } from '../interface/user.interface';
 
 export class UserRepository {
     public knx: typeof knexDB;
@@ -9,15 +9,30 @@ export class UserRepository {
         this.knx = knexDB;
     }
 
-    async getUsers(req: Request, res: Response): Promise<Response> {
-        try {
-            const response = await this.knx.db("userdb").select("*");
-            return res.status(200).json(response);//cont
-        }
-        catch (e) {
-            console.log(e);
-            return res.status(500).json('Server Err');
-        }
+    // async getUsers(req: Request, res: Response): Promise<Response> {
+    //     try {
+    //         const response = await this.knx.db("userdb").select("*");
+    //         return res.status(200).json(response);//cont
+    //     }
+    //     catch (e) {
+    //         console.log(e);
+    //         return res.status(500).json('Server Err');
+    //     }
+    // }
+
+    async getAllUsers(): Promise<User[]> {
+
+        return new Promise(async (resolve, reject) => {
+            this.knx.db
+                .select("*")
+                .from("userdb")
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
     }
 
     async getUserbyId(req: Request, res: Response): Promise<Response> {
@@ -27,7 +42,7 @@ export class UserRepository {
         return res.status(200).json(response);
     }
 
-    async createUser(req: Request, res: Response, userdb: Userdb): Promise<Response> {
+    async createUser(req: Request, res: Response, userdb: User): Promise<Response> {
         const { id, isim, lokasyon } = req.body;
 
         this.knx.db("userdb").insert([
@@ -55,7 +70,7 @@ export class UserRepository {
 
         return res.status(200).json(response);
     }
-    
+
     async updateUser(req: Request, res: Response): Promise<Response> {
         const x = parseInt(req.params.id);
         console.log("geldi update");
