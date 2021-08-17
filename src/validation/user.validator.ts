@@ -10,7 +10,7 @@ const schema = {
     }),
 
     update: Joi.object().keys({
-        id: Joi.number().required(),
+        id: Joi.number().min(1).required(),
         isim: Joi.string().min(1).max(25).optional(),
         lokasyon: Joi.string().min(1).max(25).optional()
     }),
