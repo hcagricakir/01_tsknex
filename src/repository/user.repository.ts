@@ -14,6 +14,7 @@ export class UserRepository {
             this.knx.db
                 .select("*")
                 .from("userdb")
+                .orderBy('id')
                 .then((result) => {
                     resolve(result);
                 })
@@ -43,7 +44,7 @@ export class UserRepository {
     }
     async createUser(user: User): Promise<User> {
         return new Promise(async (resolve, reject) => {
-            this.knx.db("userdb").insert(user)
+            await this.knx.db("userdb").insert(user)
                 .returning("*")
                 .then((result) => {
                     resolve(result[0]);

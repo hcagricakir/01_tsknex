@@ -22,6 +22,7 @@ export class UserController {
             .catch((err) => {
                 next(err);
             });
+            
     }
     getUserbyId(req: Request, res: Response, next: NextFunction) {
         const id = parseInt(req.params.id);
