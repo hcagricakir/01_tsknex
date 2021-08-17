@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import { UserController } from './src/controller/user.controller';
 import knexDB from './src/db/knex';
-import logger from './src/middlewares/logger'
 class Server {
     
     private userController: UserController;

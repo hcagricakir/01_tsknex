@@ -1,6 +1,6 @@
 import knexDB from '../db/knex';
 import { User } from '../interface/user.interface';
-import {UserNotFound,DatabaseError} from "../common/http-exeption"
+import { UserNotFound, DatabaseError } from "../common/http-exeption"
 export class UserRepository {
     public knx: typeof knexDB;
 
@@ -24,18 +24,19 @@ export class UserRepository {
     }
     async getUserbyId(id: number): Promise<User[]> {
         return new Promise(async (resolve, reject) => {
-           await this.knx.db("userdb")
+            await this.knx.db("userdb")
                 .select("*")
                 .where({ id: id })
                 .first()
                 .then((result) => {
-                    if(result) {
-                        resolve(result);}
+                    if (result) {
+                        resolve(result);
+                    }
                     else {
-                        reject(new UserNotFound("usernotfound"));                  
+                        reject(new UserNotFound("usernotfound"));
                     }
                 })
-                .catch((error) => {               
+                .catch(() => {
                     reject(new DatabaseError("databaseerr"));
                 });
         });
@@ -49,33 +50,46 @@ export class UserRepository {
                 })
                 .catch((error) => {
                     reject(error);
-                   
+
                 })
         })
     }
-    async updateUser(user: User): Promise<User> {
+    async updateUser(body: User): Promise<User[]> {
         return new Promise(async (resolve, reject) => {
-            this.knx.db("userdb")
-                .where({ id: user.id })
-                .update(user, ["id", "isim", "lokasyon"])
+            await this.knx.db("userdb")
+                .select("*")
+                .where("id",body.id)
+                .first()                         
                 .then((result) => {
-                    resolve(result[0]);
+                    if (result) {
+                        this.knx.db("userdb").select("*").where({ id: body.id }).update(body, ["id", "isim", "lokasyon"]).then((result)=>{
+                            resolve(result)
+                        })
+                    }
+                    else {
+                        reject(new UserNotFound("usernotfound"));
+                    }
                 })
-                .catch((error) => {
-                    reject(error);
-                   
+                .catch(() => {
+                    reject(new DatabaseError("databaseerr"));
+
                 })
         })
     }
     async deleteUser(id: number): Promise<Boolean> {
         return new Promise(async (resolve, reject) => {
-            this.knx.db("userdb").where({ id: id }).del()
-                .then(() => {
-                    resolve(true);
-                })            
+            await this.knx.db("userdb").where({ id: id }).del()
+                .then((result) => {
+                    if (result) {
+                        resolve(true);
+                    }
+                    else {
+                        reject(new UserNotFound("usernotfound"));
+                    }
+                })
                 .catch((error) => {
                     reject(error);
-                   
+
                 })
         })
     }

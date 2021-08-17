@@ -43,9 +43,9 @@ export class UserServices {
                 });
         });
     }
-    async updateUser(user: User): Promise<User> {
+    async updateUser(body: User): Promise<User[]> {
         return new Promise((resolve, reject) => {
-            this.userRepository.updateUser(user)
+            this.userRepository.updateUser(body)
                 .then((result) => {
                     return resolve(result);
                 })
