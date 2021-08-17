@@ -1,8 +1,8 @@
 import { Router, Response, Request, NextFunction } from "express";
 import { UserServices } from "../services/user.service";
 import schema from "../validation/user.validator";
-
-
+import Joi from "joi";
+import { ValidationError } from "../common/http-exeption"
 export class UserController {
     public router: Router;
     private userService: UserServices;
@@ -33,8 +33,8 @@ export class UserController {
                     next(err);
                 });
         })
-            .catch((err) => {
-                next(err);
+            .catch((err: Joi.ValidationError) => {
+                next(new ValidationError(err.message));
             })
     }
     createUser(req: Request, res: Response, next: NextFunction) {
@@ -48,8 +48,8 @@ export class UserController {
                     next(err);
                 });
         })
-            .catch((err) => {
-                next(err);
+            .catch((err: Joi.ValidationError) => {
+                next(new ValidationError(err.message));
             })
     }
     updateUser(req: Request, res: Response, next: NextFunction) {
@@ -63,8 +63,8 @@ export class UserController {
                     next(err);
                 });
         })
-            .catch((err) => {
-                next(err);
+            .catch((err: Joi.ValidationError) => {
+                next(new ValidationError(err.message));
             })
     }
     deleteUser(req: Request, res: Response, next: NextFunction) {
@@ -77,8 +77,8 @@ export class UserController {
                     next(err);
                 });
         })
-            .catch((err) => {
-                next(err);
+            .catch((err: Joi.ValidationError) => {
+                next(new ValidationError(err.message));
             })
     }
 
