@@ -54,7 +54,7 @@ export class UserController {
     }
     updateUser(req: Request, res: Response, next: NextFunction) {
         const { body } = req;
-        schema.update.validateAsync({body}).then((validatedUser) => {
+        schema.update.validateAsync(body).then((validatedUser) => {
             this.userService.updateUser(validatedUser)
                 .then((user) => {
                     return res.status(200).send(user);
