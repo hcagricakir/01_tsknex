@@ -1,6 +1,6 @@
 import knexDB from '../db/knex';
 import { User } from '../interface/user.interface';
-
+import {UserNotFound,DatabaseError} from "../common/http-exeption"
 export class UserRepository {
     public knx: typeof knexDB;
 
@@ -24,17 +24,21 @@ export class UserRepository {
     }
     async getUserbyId(id: number): Promise<User[]> {
         return new Promise(async (resolve, reject) => {
-            this.knx.db
+           await this.knx.db("userdb")
                 .select("*")
-                .from("userdb")
-                .where("id", id)
+                .where({ id: id })
+                .first()
                 .then((result) => {
-                    resolve(result);
+                    if(result) {
+                        resolve(result);}
+                    else {
+                        reject(new UserNotFound("usernotfound"));                  
+                    }
                 })
-                .catch((error) => {
-                    reject(error);
-                })
-        })
+                .catch((error) => {               
+                    reject(new DatabaseError("databaseerr"));
+                });
+        });
     }
     async createUser(user: User): Promise<User> {
         return new Promise(async (resolve, reject) => {
@@ -45,6 +49,7 @@ export class UserRepository {
                 })
                 .catch((error) => {
                     reject(error);
+                   
                 })
         })
     }
@@ -58,6 +63,7 @@ export class UserRepository {
                 })
                 .catch((error) => {
                     reject(error);
+                   
                 })
         })
     }
@@ -66,9 +72,10 @@ export class UserRepository {
             this.knx.db("userdb").where({ id: id }).del()
                 .then(() => {
                     resolve(true);
-                })
+                })            
                 .catch((error) => {
                     reject(error);
+                   
                 })
         })
     }

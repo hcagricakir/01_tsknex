@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "nodemon app.ts",
     "tsc": "tsc ",
     "test": "echo \"Error: no test\" && exit 1",
     "dev": "concurrently \"tsc --watch\" \"nodemon build app.js -L\""
