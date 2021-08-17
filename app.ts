@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { UserController } from './src/controller/user.controller';
 import knexDB from './src/db/knex';
+import errorHandler from './src/middlewares/error.middleware'
 class Server {
     
     private userController: UserController;
@@ -15,6 +16,7 @@ class Server {
         this.userController = new UserController();
         knexDB.init();
         this.routes();  
+        this.app.use(errorHandler);
     }
 
     public configuration() {
