@@ -3,6 +3,7 @@ import { UserServices } from "../services/user.service";
 import schema from "../validation/user.validator";
 import Joi from "joi";
 import { ValidationError } from "../common/http-exeption"
+import logger from "../middlewares/logger";
 export class UserController {
     public router: Router;
     private userService: UserServices;
@@ -16,6 +17,7 @@ export class UserController {
 
 
     getAllUsers(req: Request, res: Response, next: NextFunction) {
+        logger(req);
         this.userService.getAllUsers().then((user) => {
             return res.status(200).send(user);
         })
@@ -25,6 +27,7 @@ export class UserController {
             
     }
     getUserbyId(req: Request, res: Response, next: NextFunction) {
+        logger(req);
         const id = parseInt(req.params.id);
         schema.idControl.validateAsync({ id }).then((validatedId) => {
             this.userService.getUserbyId(id).then((user) => {
@@ -39,6 +42,7 @@ export class UserController {
             })
     }
     createUser(req: Request, res: Response, next: NextFunction) {
+        logger(req);
         const { body } = req;
         schema.create.validateAsync(body).then((validatedUser) => {
             this.userService.createUser(validatedUser)
@@ -54,6 +58,7 @@ export class UserController {
             })
     }
     updateUser(req: Request, res: Response, next: NextFunction) {
+        logger(req);
         const { body } = req;
         schema.update.validateAsync(body).then((validatedUser) => {
             this.userService.updateUser(validatedUser)
@@ -69,6 +74,7 @@ export class UserController {
             })
     }
     deleteUser(req: Request, res: Response, next: NextFunction) {
+        logger(req);
         const id = parseInt(req.params.id);
         schema.idControl.validateAsync({ id }).then((validatedId) => {
             this.userService.deleteUser(id).then((user) => {
