@@ -2,8 +2,9 @@ import express, { Request, Response } from 'express';
 import { UserController } from './src/controller/user.controller';
 import knexDB from './src/db/knex';
 import errorHandler from './src/middlewares/error.middleware'
+import loggerMiddleware from './src/middlewares/logger';
 class Server {
-    
+
     private userController: UserController;
     private app: express.Application;
 
@@ -15,8 +16,9 @@ class Server {
         this.configuration();
         this.userController = new UserController();
         knexDB.init();
-        this.routes();  
+        this.routes();
         this.app.use(errorHandler);
+
     }
 
     public configuration() {
@@ -25,10 +27,10 @@ class Server {
 
     public async routes() {
         this.userController = new UserController();
-
+        this.app.use(loggerMiddleware);
         this.app.use('/userdb', this.userController.router);
     }
-    
+
     public start() {
         this.app.listen(this.app.get('port'), () => {
             console.log(`Server ${this.app.get('port')} portundan dinleniyor. `);
