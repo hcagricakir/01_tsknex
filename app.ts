@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { UserController } from './src/controller/user.controller';
 import knexDB from './src/db/knex';
 import errorHandler from './src/middlewares/error.middleware'
-import loggerMiddleware from './src/middlewares/logger';
+import loggerMiddleware from './src/middlewares/logger.middleware';
 class Server {
 
     private userController: UserController;

@@ -69,7 +69,8 @@ export class UserController {
         const id = parseInt(req.params.id);
         schema.idControl.validateAsync({ id }).then((validatedId) => {
             this.userService.deleteUser(id).then((user) => {
-                return res.status(200).send(user);
+                if (user) { return res.status(200).send(req.body); }
+
             })
                 .catch((err) => {
                     next(err);

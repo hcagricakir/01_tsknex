@@ -1,6 +1,7 @@
 import knexDB from '../db/knex';
 import { User } from '../interface/user.interface';
 import { UserNotFound, DatabaseError } from "../common/http-exeption"
+import { PaginationOptions } from '../interface/requestPagination.interface';
 export class UserRepository {
     public knx: typeof knexDB;
 
@@ -8,13 +9,13 @@ export class UserRepository {
         this.knx = knexDB;
     }
 
-    async getAllUsers(): Promise<User[]> {
+    async getAllUsers(): Promise<User[]> {//options: PaginationOptions
 
         return new Promise(async (resolve, reject) => {
             this.knx.db
                 .select("*")
                 .from("userdb")
-                .orderBy('id')
+                // .orderBy(options.orderBy)
                 .then((result) => {
                     resolve(result);
                 })
