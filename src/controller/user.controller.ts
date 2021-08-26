@@ -3,19 +3,26 @@ import { UserServices } from "../services/user.service";
 import schema from "../validation/user.validator";
 import Joi from "joi";
 import { ValidationError } from "../common/http-exeption"
+import paginationMiddleware from "../middlewares/pagination.middleware";
+import  { PaginationOptions } from "../interface/requestPagination.interface";
 export class UserController {
     public router: Router;
     private userService: UserServices;
-
-    constructor() {
+    private paginationOptions: PaginationOptions;
+        constructor() {
         this.router = Router();
         this.userService = new UserServices();
+        this.paginationOptions = new PaginationOptions;
         this.routes();
     }
     getAllUsers(req: Request, res: Response, next: NextFunction) {
-        this.userService.getAllUsers().then((user) => {
-            return res.status(200).send(user);
-        })
+            const options = req.query;
+            options.orderBy = "created_at"
+            
+            this.userService.getAllUsers(options).then(user=>{
+                return res.status(200).send(user);
+            })
+            
             .catch((err) => {
                 next(err);
             });
@@ -82,7 +89,7 @@ export class UserController {
             })
     }
     public routes() {
-        this.router.get('/', this.getAllUsers.bind(this));
+        this.router.get('/', [paginationMiddleware],  this.getAllUsers.bind(this));
         this.router.get('/:id', this.getUserbyId.bind(this));
         this.router.post('/', this.createUser.bind(this));
         this.router.put('/:id', this.updateUser.bind(this));

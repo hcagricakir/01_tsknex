@@ -1,6 +1,6 @@
 import { UserRepository } from "../repository/user.repository";
 import { User } from "../interface/user.interface";
-
+import { PaginationOptions } from "../interface/requestPagination.interface";
 export class UserServices {
     private userRepository: UserRepository;
 
@@ -8,10 +8,10 @@ export class UserServices {
         this.userRepository = new UserRepository();
     }
 
-    async getAllUsers(): Promise<User[]> {
+    async getAllUsers(options: PaginationOptions): Promise<User[]> {
         return new Promise((resolve, reject) => {
             this.userRepository
-                .getAllUsers()
+                .getAllUsers(options)
                 .then((result) => {
                     return resolve(result);
                 })

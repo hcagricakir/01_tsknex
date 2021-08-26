@@ -9,13 +9,13 @@ export class UserRepository {
         this.knx = knexDB;
     }
 
-    async getAllUsers(): Promise<User[]> {//options: PaginationOptions
+    async getAllUsers(options: PaginationOptions): Promise<User[]> {
 
         return new Promise(async (resolve, reject) => {
             this.knx.db
                 .select("*")
                 .from("userdb")
-                // .orderBy(options.orderBy)
+                .orderBy(options.orderBy)
                 .then((result) => {
                     resolve(result);
                 })
