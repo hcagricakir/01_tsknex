@@ -20,6 +20,8 @@ export class UserRepository {
                     resolve(result);
                 })
                 .catch((error) => {
+                    console.log("geçti");
+                    
                     reject(error);
                 })
         })

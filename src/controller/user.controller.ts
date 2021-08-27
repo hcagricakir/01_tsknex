@@ -4,21 +4,20 @@ import schema from "../validation/user.validator";
 import Joi from "joi";
 import { ValidationError } from "../common/http-exeption"
 import paginationMiddleware from "../middlewares/pagination.middleware";
-import  { PaginationOptions } from "../interface/requestPagination.interface";
-export class UserController {
+import IRouterBase from "../common/router"; 
+export class UserController implements IRouterBase {
     public router: Router;
     private userService: UserServices;
-    private paginationOptions: PaginationOptions;
         constructor() {
         this.router = Router();
         this.userService = new UserServices();
-        this.paginationOptions = new PaginationOptions;
         this.routes();
     }
     getAllUsers(req: Request, res: Response, next: NextFunction) {
-            const options = req.query;
-            options.orderBy = "created_at"
-            
+            const options = req.paginationOptions;
+            if(options.orderBy && undefined){
+                options.orderBy = "created_at"
+            }
             this.userService.getAllUsers(options).then(user=>{
                 return res.status(200).send(user);
             })
