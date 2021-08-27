@@ -4,7 +4,7 @@ import RequestPagination, { PaginationOptions } from "../interface/requestPagina
 async function paginationMiddleware(request: RequestPagination, res: Response, next: NextFunction) {
     const paginationOptions = new PaginationOptions();
     if (request.query.orderBy && request.query.sortBy) {
-         paginationOptions.enabled = true;
+        paginationOptions.enabled = true;
         paginationOptions.orderBy = request.query.orderBy.toString();
         paginationOptions.orderSort = request.query.sortBy === "desc" ? "desc" : "asc";
     }
@@ -29,7 +29,6 @@ async function paginationMiddleware(request: RequestPagination, res: Response, n
      }
      if (request.query.match != undefined || request.query.match !=""){
          paginationOptions.enabled = true;
-
      }
 
     try{

@@ -13,9 +13,11 @@ export class UserRepository {
 
         return new Promise(async (resolve, reject) => {
             this.knx.db
-                .select("*")
+                .select("id","isim","lokasyon")
                 .from("userdb")
-                .orderBy(options.orderBy)
+                //.orderBy(options.orderBy,options.orderSort)
+                .limit(options.limit)
+                .offset(options.skip)
                 .then((result) => {
                     resolve(result);
                 })

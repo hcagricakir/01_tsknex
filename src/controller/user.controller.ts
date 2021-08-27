@@ -15,9 +15,6 @@ export class UserController implements IRouterBase {
     }
     getAllUsers(req: Request, res: Response, next: NextFunction) {
         const options = req.paginationOptions;
-        if (options.orderBy && undefined) {
-            options.orderBy = "created_at"
-        }
         this.userService.getAllUsers(options).then(user => {
             return res.status(200).send(user);
         })
