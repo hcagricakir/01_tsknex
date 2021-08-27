@@ -26,7 +26,7 @@ export class UserRepository {
                 })
         })
     }
-    async getUserbyId(id: number): Promise<User[]> {
+    async getUserbyId(id: number): Promise<User> {
         return new Promise(async (resolve, reject) => {
             await this.knx.db("userdb")
                 .select("*")
@@ -80,13 +80,13 @@ export class UserRepository {
                 })
         })
     }
-    async deleteUser(id: number): Promise<User[]> {
+    async deleteUser(id: number): Promise<User> {
         return new Promise(async (resolve, reject) => {
             await this.knx.db("userdb").select("*").where({ id: id })
                 .then((result) => {
                     if (result) {
                        this.knx.db("userdb").select("*").where({id:id}).del().then(()=>{
-                          resolve(result); 
+                          resolve(result[0]); 
                        })
                        
                         

@@ -15,7 +15,7 @@ export class KnexDB{
 
             this.knexConfig = {
                 client:"pg",
-                connection: process.env.POSTGRES_URL || "postgres://postgres:admin@localhost:/userdb",
+                connection: process.env.POSTGRES_URL || "",
                 pool:{
                     min:1,
                     max:3

@@ -28,9 +28,9 @@ export class UserController implements IRouterBase {
 
     }
     getUserbyId(req: Request, res: Response, next: NextFunction) {
-        const id = parseInt(req.params.id);
-        schema.idControl.validateAsync({ id }).then((validatedId) => {
-            this.userService.getUserbyId(id).then((user) => {
+        const id = req.params.id;
+        schema.idControl.validateAsync(id).then((validatedId) => {
+            this.userService.getUserbyId(validatedId).then((user) => {
                 return res.status(200).send(user);
             })
                 .catch((err) => {
@@ -72,10 +72,9 @@ export class UserController implements IRouterBase {
             })
     }
     deleteUser(req: Request, res: Response, next: NextFunction) {
-        const id = parseInt(req.params.id);
-        const { body } = req;
-        schema.idControl.validateAsync({ id }).then((validatedId) => {
-            this.userService.deleteUser(id).then((user) => {
+        const id = req.params.id;
+        schema.idControl.validateAsync(id).then((validatedId) => {
+            this.userService.deleteUser(validatedId).then((user) => {
                 return res.status(200).send(user);
 
             })
