@@ -3,7 +3,6 @@ const schema = {
     idControl:Joi.number().min(1),
     
     create: Joi.object().keys({
-        id: Joi.number().required(),
         isim: Joi.string().min(1).max(25).required(),
         lokasyon: Joi.string().min(1).max(25).required()
     }),

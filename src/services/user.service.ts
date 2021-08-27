@@ -56,7 +56,8 @@ export class UserServices {
                 });
         });
     }
-    async deleteUser(id: number): Promise<User> {
+  
+    async deleteUser(id: number): Promise<User[]> {
         return new Promise((resolve, reject) => {
             this.userRepository
                 .deleteUser(id)

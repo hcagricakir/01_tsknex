@@ -21,7 +21,7 @@ export class UserRepository {
                 })
                 .catch((error) => {
                     console.log("geçti");
-                    
+
                     reject(error);
                 })
         })
@@ -62,11 +62,11 @@ export class UserRepository {
         return new Promise(async (resolve, reject) => {
             await this.knx.db("userdb")
                 .select("*")
-                .where("id",body.id)
-                .first()                         
+                .where("id", body.id)
+                .first()
                 .then((result) => {
                     if (result) {
-                        this.knx.db("userdb").select("*").where({ id: body.id }).update(body, ["id", "isim", "lokasyon"]).then((result)=>{
+                        this.knx.db("userdb").select("*").where({ id: body.id }).update(body, ["id", "isim", "lokasyon"]).then((result) => {
                             resolve(result)
                         })
                     }
@@ -80,16 +80,18 @@ export class UserRepository {
                 })
         })
     }
-    async deleteUser(id: number): Promise<User> {
+    
+    async deleteUser(id: number): Promise<User[]> {
         return new Promise(async (resolve, reject) => {
-            await this.knx.db("userdb").select("*").where({ id: id })
+            await this.knx.db("userdb")
+                .select("*")
+                .where({ id: id })
+                .first()
                 .then((result) => {
                     if (result) {
-                       this.knx.db("userdb").select("*").where({id:id}).del().then(()=>{
-                          resolve(result[0]); 
-                       })
-                       
-                        
+                        this.knx.db("userdb").select("*").where({ id: id }).del().then(() => {
+                            resolve(result);
+                        })
                     }
                     else {
                         reject(new UserNotFound("usernotfound"));

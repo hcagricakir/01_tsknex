@@ -4,24 +4,24 @@ import schema from "../validation/user.validator";
 import Joi from "joi";
 import { ValidationError } from "../common/http-exeption"
 import paginationMiddleware from "../middlewares/pagination.middleware";
-import IRouterBase from "../common/router"; 
+import IRouterBase from "../common/router";
 export class UserController implements IRouterBase {
     public router: Router;
     private userService: UserServices;
-        constructor() {
+    constructor() {
         this.router = Router();
         this.userService = new UserServices();
         this.routes();
     }
     getAllUsers(req: Request, res: Response, next: NextFunction) {
-            const options = req.paginationOptions;
-            if(options.orderBy && undefined){
-                options.orderBy = "created_at"
-            }
-            this.userService.getAllUsers(options).then(user=>{
-                return res.status(200).send(user);
-            })
-            
+        const options = req.paginationOptions;
+        if (options.orderBy && undefined) {
+            options.orderBy = "created_at"
+        }
+        this.userService.getAllUsers(options).then(user => {
+            return res.status(200).send(user);
+        })
+
             .catch((err) => {
                 next(err);
             });
@@ -71,8 +71,10 @@ export class UserController implements IRouterBase {
                 next(new ValidationError(err.message));
             })
     }
+
     deleteUser(req: Request, res: Response, next: NextFunction) {
         const id = req.params.id;
+
         schema.idControl.validateAsync(id).then((validatedId) => {
             this.userService.deleteUser(validatedId).then((user) => {
                 return res.status(200).send(user);
@@ -87,7 +89,7 @@ export class UserController implements IRouterBase {
             })
     }
     public routes() {
-        this.router.get('/', [paginationMiddleware],  this.getAllUsers.bind(this));
+        this.router.get('/', [paginationMiddleware], this.getAllUsers.bind(this));
         this.router.get('/:id', this.getUserbyId.bind(this));
         this.router.post('/', this.createUser.bind(this));
         this.router.put('/:id', this.updateUser.bind(this));
