@@ -1,30 +1,29 @@
-export class HttpException extends Error {
-    status: number;
+export class HttpException extends Error{
     message: string;
-    statusCode:number
-
-    constructor(status: number, message: string,statusCode:number) {
-        super(message);
-        this.status = status;
+    status: number;
+    statusCode: number
+    constructor(status: number, message: string, statusCode: number) {
+        super(message)
         this.message = message;
+        this.status = status;
         this.statusCode = statusCode
     }
 }
 
 export class UserNotFound extends HttpException {
-    constructor(message?: string) {
-        super(404, message || "Cannot find the user",2);
+    constructor() {
+        super(404,"User not found", 4);
     }
 }
 
 export class DatabaseError extends HttpException {
-    constructor(message?: string) {
-        super(500, message || "Something went wrong",3);
+    constructor(message: string) {
+        super(500, message || "Something went wrong", 5);
     }
 }
 
 export class ValidationError extends HttpException {
-    constructor(message?: string) {
-        super(400, message || "Validation error",4);
+    constructor(message: string) {
+        super(400, message || "Validation error", 6);
     }
 }

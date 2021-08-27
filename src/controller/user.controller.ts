@@ -5,6 +5,7 @@ import Joi from "joi";
 import { ValidationError } from "../common/http-exeption"
 import paginationMiddleware from "../middlewares/pagination.middleware";
 import IRouterBase from "../common/router";
+import { OperationSuccesfull, InsertSuccesfull, DeleteSuccesfull } from "../common/http-response";
 export class UserController implements IRouterBase {
     public router: Router;
     private userService: UserServices;
@@ -28,7 +29,8 @@ export class UserController implements IRouterBase {
         const id = req.params.id;
         schema.idControl.validateAsync(id).then((validatedId) => {
             this.userService.getUserbyId(validatedId).then((user) => {
-                return res.status(200).send(user);
+
+                return res.send(new OperationSuccesfull(user));
             })
                 .catch((err) => {
                     next(err);
@@ -43,7 +45,7 @@ export class UserController implements IRouterBase {
         schema.create.validateAsync(body).then((validatedUser) => {
             this.userService.createUser(validatedUser)
                 .then((user) => {
-                    return res.status(200).send(user);
+                    return res.send(new InsertSuccesfull(user));
                 })
                 .catch((err) => {
                     next(err);
@@ -58,7 +60,7 @@ export class UserController implements IRouterBase {
         schema.update.validateAsync(body).then((validatedUser) => {
             this.userService.updateUser(validatedUser)
                 .then((user) => {
-                    return res.status(200).send(user);
+                    return res.send(new OperationSuccesfull(user));
                 })
                 .catch((err) => {
                     next(err);
@@ -71,10 +73,9 @@ export class UserController implements IRouterBase {
 
     deleteUser(req: Request, res: Response, next: NextFunction) {
         const id = req.params.id;
-
         schema.idControl.validateAsync(id).then((validatedId) => {
             this.userService.deleteUser(validatedId).then((user) => {
-                return res.status(200).send(user);
+                return res.send(new DeleteSuccesfull(user));
 
             })
                 .catch((err) => {

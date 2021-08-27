@@ -39,7 +39,7 @@ export class UserRepository {
                         resolve(result);
                     }
                     else {
-                        reject(new UserNotFound("usernotfound"));
+                        reject(new UserNotFound());
                     }
                 })
                 .catch(() => {
@@ -73,7 +73,7 @@ export class UserRepository {
                         })
                     }
                     else {
-                        reject(new UserNotFound("usernotfound"));
+                        reject(new UserNotFound());
                     }
                 })
                 .catch(() => {
@@ -96,7 +96,7 @@ export class UserRepository {
                         })
                     }
                     else {
-                        reject(new UserNotFound("usernotfound"));
+                        reject(new UserNotFound());
                     }
                 })
                 .catch((error) => {
