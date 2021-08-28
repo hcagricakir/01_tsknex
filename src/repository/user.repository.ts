@@ -13,17 +13,15 @@ export class UserRepository {
 
         return new Promise(async (resolve, reject) => {
             this.knx.db
-                .select("id","isim","lokasyon")
+                .select("id", "isim", "lokasyon")
                 .from("userdb")
-                //.orderBy(options.orderBy,options.orderSort)
                 .limit(options.limit)
                 .offset(options.skip)
+                .orderBy(options.orderBy, options.orderSort)
                 .then((result) => {
                     resolve(result);
                 })
                 .catch((error) => {
-                    console.log("geçti");
-
                     reject(error);
                 })
         })
@@ -82,7 +80,7 @@ export class UserRepository {
                 })
         })
     }
-    
+
     async deleteUser(id: number): Promise<User[]> {
         return new Promise(async (resolve, reject) => {
             await this.knx.db("userdb")

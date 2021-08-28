@@ -3,15 +3,20 @@ import RequestPagination, { PaginationOptions } from "../interface/requestPagina
 
 async function paginationMiddleware(request: RequestPagination, res: Response, next: NextFunction) {
     const paginationOptions = new PaginationOptions();
-    if (request.query.orderBy && request.query.sortBy) {
+    if(request.query.orderBy){
         paginationOptions.enabled = true;
-        paginationOptions.orderBy = request.query.orderBy.toString();
-        paginationOptions.orderSort = request.query.sortBy === "desc" ? "desc" : "asc";
+        paginationOptions.orderBy = String(request.query.orderBy);
     }
-    else {
-        paginationOptions.orderSort = "asc";
+    else{
+        paginationOptions.orderBy = "id"
     }
-
+    if(request.query.orderSort){
+        paginationOptions.enabled = true;
+        paginationOptions.orderSort = String(request.query.orderSort)
+    }
+    else{
+        paginationOptions.orderSort = "asc"
+    }
      if (request.query.limit != undefined || request.query.limit != "") {
          paginationOptions.enabled = true;
          paginationOptions.limit = Number(request.query.limit);
