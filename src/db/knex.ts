@@ -23,7 +23,6 @@ export class KnexDB{
             };
 
             this.db = Knex(this.knexConfig);
-            const resultx = this.db.raw("select 1=1");
             this.initialized = true;
             resolve(true);
         });

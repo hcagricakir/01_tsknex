@@ -94,5 +94,4 @@ export class UserController implements IRouterBase {
         this.router.put('/:id', this.updateUser.bind(this));
         this.router.delete('/:id', this.deleteUser.bind(this));
     }
-    //validasyon + promise
 }

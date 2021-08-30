@@ -3,6 +3,7 @@ import { UserController } from './src/controller/user.controller';
 import knexDB from './src/db/knex';
 import errorHandler from './src/middlewares/error.middleware'
 import loggerMiddleware from './src/middlewares/logger.middleware';
+import dotenv from 'dotenv';
 class Server {
 
     private userController: UserController;
@@ -12,10 +13,10 @@ class Server {
         this.app = express();
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
-        require('dotenv').config();
+        dotenv.config();
+        knexDB.init();
         this.configuration();
         this.userController = new UserController();
-        knexDB.init();
         this.routes();
         this.app.use(errorHandler);
 
