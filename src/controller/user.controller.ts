@@ -15,7 +15,7 @@ export class UserController implements IRouterBase {
         this.routes();
     }
     getAllUsers(req: Request, res: Response, next: NextFunction) {
-        const options = req.paginationOptions;
+        const options = req.paginationOptions;        
         this.userService.getAllUsers(options).then(user => {
             return res.status(200).send(user);
         })
@@ -57,6 +57,7 @@ export class UserController implements IRouterBase {
     }
     updateUser(req: Request, res: Response, next: NextFunction) {
         const { body } = req;
+        body.id = req.params.id;
         schema.update.validateAsync(body).then((validatedUser) => {
             this.userService.updateUser(validatedUser)
                 .then((user) => {

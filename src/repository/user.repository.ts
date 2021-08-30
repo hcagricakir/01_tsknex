@@ -66,7 +66,11 @@ export class UserRepository {
                 .first()
                 .then((result) => {
                     if (result) {
-                        this.knx.db("userdb").select("*").where({ id: body.id }).update(body, ["id", "isim", "lokasyon"]).then((result) => {
+                        this.knx.db("userdb")
+                        .select("*")
+                        .where({ id: body.id })
+                        .update(body, ["id", "isim", "lokasyon"])
+                        .then((result) => {
                             resolve(result)
                         })
                     }
