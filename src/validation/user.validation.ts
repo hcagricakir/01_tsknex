@@ -13,5 +13,4 @@ const schema = {
         lokasyon: Joi.string().min(1).max(25).optional()
     }),
 }
-
 export default schema;

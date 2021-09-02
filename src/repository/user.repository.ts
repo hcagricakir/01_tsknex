@@ -17,6 +17,7 @@ export class UserRepository {
                 .from("userdb")
                 .limit(options.limit)
                 .offset(options.skip)
+                // .where(options.match)
                 .orderBy(options.orderBy, options.orderSort)
                 .then((result) => {
                     resolve(result);
@@ -58,7 +59,7 @@ export class UserRepository {
                 })
         })
     }
-    async updateUser(body: User): Promise<User[]> {
+    async updateUser(body: User): Promise<User> {
         return new Promise(async (resolve, reject) => {
             await this.knx.db("userdb")
                 .select("*")
@@ -67,12 +68,12 @@ export class UserRepository {
                 .then((result) => {
                     if (result) {
                         this.knx.db("userdb")
-                        .select("*")
-                        .where({ id: body.id })
-                        .update(body, ["id", "isim", "lokasyon"])
-                        .then((result) => {
-                            resolve(result)
-                        })
+                            .select("*")
+                            .where({ id: body.id })
+                            .update(body, ["id", "isim", "lokasyon"])
+                            .then((result) => {
+                                resolve(result[0])
+                            })
                     }
                     else {
                         reject(new UserNotFound());
@@ -84,8 +85,7 @@ export class UserRepository {
                 })
         })
     }
-
-    async deleteUser(id: number): Promise<User[]> {
+    async deleteUser(id: number): Promise<User> {
         return new Promise(async (resolve, reject) => {
             await this.knx.db("userdb")
                 .select("*")
@@ -93,9 +93,13 @@ export class UserRepository {
                 .first()
                 .then((result) => {
                     if (result) {
-                        this.knx.db("userdb").select("*").where({ id: id }).del().then(() => {
-                            resolve(result);
-                        })
+                        this.knx.db("userdb")
+                            .select("*")
+                            .where({ id: id })
+                            .del()
+                            .then(() => {
+                                resolve(result);
+                            })
                     }
                     else {
                         reject(new UserNotFound());
@@ -108,6 +112,3 @@ export class UserRepository {
         })
     }
 }
-
-
-//then catch yapısı eklenecek

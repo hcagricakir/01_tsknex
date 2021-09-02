@@ -13,18 +13,18 @@ export class Response {
 
 export class OperationSuccesfull extends Response {
     constructor(public data?: any) {
-        super(200,"Operation Succesfull", data,1);
+        super(200, "Operation Succesfull", data, 1);
     }
 }
 
 export class InsertSuccesfull extends Response {
     constructor(public data?: any) {
-        super(200,"Insert Succesfull", data, 2);
+        super(200, "Insert Succesfull", data, 2);
     }
 }
 
 export class DeleteSuccesfull extends Response {
     constructor(public data?: any) {
-        super(200,"Delete Succesfull", data, 3);
+        super(200, "Delete Succesfull", data, 3);
     }
 }

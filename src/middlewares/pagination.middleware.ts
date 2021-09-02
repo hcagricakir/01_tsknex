@@ -1,45 +1,45 @@
-import { NextFunction,Response } from "express";
+import { NextFunction, Response } from "express";
 import RequestPagination, { PaginationOptions } from "../interface/requestPagination.interface";
 
 async function paginationMiddleware(request: RequestPagination, res: Response, next: NextFunction) {
     const paginationOptions = new PaginationOptions();
-    if(request.query.orderBy){
+    if (request.query.orderBy) {
         paginationOptions.enabled = true;
         paginationOptions.orderBy = String(request.query.orderBy);
     }
-    else{
+    else {
         paginationOptions.orderBy = "id"
     }
-    if(request.query.orderSort){
+    if (request.query.orderSort) {
         paginationOptions.enabled = true;
         paginationOptions.orderSort = String(request.query.orderSort)
     }
-    else{
+    else {
         paginationOptions.orderSort = "asc"
     }
-     if (request.query.limit != undefined || request.query.limit != "") {
-         paginationOptions.enabled = true;
-         paginationOptions.limit = Number(request.query.limit);
-     }
-     else {
-         paginationOptions.limit = 10;
-     }
+    if (request.query.limit) {
+        paginationOptions.enabled = true;
+        paginationOptions.limit = Number(request.query.limit);
+    }
+    else {
+        paginationOptions.limit = 15;
+    }
+    if (request.query.skip) {
+        paginationOptions.enabled = true;
+        paginationOptions.skip = Number(request.query.skip);
+    }
+    else {
+        paginationOptions.skip = 0;
+    }
+    if (request.query.match) {
+        paginationOptions.enabled = true;
+        paginationOptions.match = Object(request.query.match);
+    }
 
-     if (request.query.skip != undefined || request.query.skip != "") {
-         paginationOptions.enabled = true;
-         paginationOptions.skip = Number(request.query.skip);
-     }
-     else {
-         paginationOptions.skip = 0;
-     }
-     if (request.query.match != undefined || request.query.match !=""){
-         paginationOptions.enabled = true;
-     }
-
-    try{
+    try {
         request.paginationOptions = paginationOptions;
         next();
-    }catch(err){
+    } catch (err) {
         next(err);
     }
 }

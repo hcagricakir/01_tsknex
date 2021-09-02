@@ -1,10 +1,10 @@
 import { Router, Response, Request, NextFunction } from "express";
 import { UserServices } from "../services/user.service";
-import schema from "../validation/user.validator";
+import schema from "../validation/user.validation";
 import Joi from "joi";
 import { ValidationError } from "../common/http-exeption"
 import paginationMiddleware from "../middlewares/pagination.middleware";
-import IRouterBase from "../common/router";
+import IRouterBase from "../common/routerHelper";
 import { OperationSuccesfull, InsertSuccesfull, DeleteSuccesfull } from "../common/http-response";
 export class UserController implements IRouterBase {
     public router: Router;
@@ -16,6 +16,10 @@ export class UserController implements IRouterBase {
     }
     getAllUsers(req: Request, res: Response, next: NextFunction) {
         const options = req.paginationOptions;        
+        // console.log(options.limit);
+        // console.log(options.orderBy);
+        // console.log(options.orderSort);
+        // console.log(options.skip);      
         this.userService.getAllUsers(options).then(user => {
             return res.status(200).send(user);
         })
@@ -71,7 +75,6 @@ export class UserController implements IRouterBase {
                 next(new ValidationError(err.message));
             })
     }
-
     deleteUser(req: Request, res: Response, next: NextFunction) {
         const id = req.params.id;
         schema.idControl.validateAsync(id).then((validatedId) => {

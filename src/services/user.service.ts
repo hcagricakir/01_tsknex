@@ -44,7 +44,7 @@ export class UserServices {
                 });
         });
     }
-    async updateUser(body: User): Promise<User[]> {
+    async updateUser(body: User): Promise<User> {
         return new Promise((resolve, reject) => {
             this.userRepository
                 .updateUser(body)
@@ -56,8 +56,7 @@ export class UserServices {
                 });
         });
     }
-  
-    async deleteUser(id: number): Promise<User[]> {
+    async deleteUser(id: number): Promise<User> {
         return new Promise((resolve, reject) => {
             this.userRepository
                 .deleteUser(id)
