@@ -18,6 +18,8 @@ const schema = {
         skip: Joi.number().integer().optional(),
         orderBy: Joi.string().optional(),
         orderSort: Joi.string().optional(),
+        lokasyon: Joi.string().optional(),
+
     })
 }
 export default schema;

@@ -31,7 +31,10 @@ async function paginationMiddleware(request: RequestPagination, res: Response, n
     else {
         paginationOptions.skip = 0;
     }
-
+    if (request.query.lokasyon) {
+        paginationOptions.enabled = true;
+        paginationOptions.lokasyon = String(request.query.lokasyon)
+    }
 
     try {
         request.paginationOptions = paginationOptions;

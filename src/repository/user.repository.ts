@@ -24,8 +24,10 @@ export class UserRepository {
                 .from("userdb")
                 .limit(options.limit)
                 .offset(options.skip)
-                // .where(options.match)
                 .orderBy(options.orderBy, options.orderSort)
+                .where((builder) => {
+                    if (options.lokasyon != undefined) builder.where('lokasyon', 'like', `%${options.lokasyon}%`)
+                })
                 .then((result) => {
 
                     resolve({

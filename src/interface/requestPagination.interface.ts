@@ -6,6 +6,7 @@ export class PaginationOptions {
     limit!: number;
     orderBy!: string;
     orderSort!: string;
+    lokasyon!: string
     enabled: boolean;
 
     constructor() {
