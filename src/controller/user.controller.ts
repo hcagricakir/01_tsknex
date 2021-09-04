@@ -15,13 +15,13 @@ export class UserController implements IRouterBase {
         this.routes();
     }
     getAllUsers(req: Request, res: Response, next: NextFunction) {
-        const options = req.paginationOptions;        
+        const options = req.paginationOptions;
         // console.log(options.limit);
         // console.log(options.orderBy);
         // console.log(options.orderSort);
         // console.log(options.skip);      
         this.userService.getAllUsers(options).then(user => {
-            return res.status(200).send(user);
+            return res.send(new OperationSuccesfull(user));
         })
 
             .catch((err) => {

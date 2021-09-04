@@ -1,7 +1,8 @@
 import knexDB from '../db/knex';
-import { User } from '../interface/user.interface';
+import { User, List } from '../interface/user.interface';
 import { UserNotFound, DatabaseError } from "../common/http-exeption"
 import { PaginationOptions } from '../interface/requestPagination.interface';
+import { number } from 'joi';
 export class UserRepository {
     public knx: typeof knexDB;
 
@@ -9,10 +10,16 @@ export class UserRepository {
         this.knx = knexDB;
     }
 
-    async getAllUsers(options: PaginationOptions): Promise<User[]> {
+    async getAllUsers(options: PaginationOptions): Promise<List> {
 
-        return new Promise(async (resolve, reject) => {
-            this.knx.db
+        return new Promise<List>(async (resolve, reject) => {
+            let totalcount: number;
+            await this.knx.db("userdb")
+                .count("id")
+                .then((result) => {
+                    totalcount = Number(result[0].count)
+                })
+            await this.knx.db
                 .select("id", "isim", "lokasyon")
                 .from("userdb")
                 .limit(options.limit)
@@ -20,7 +27,11 @@ export class UserRepository {
                 // .where(options.match)
                 .orderBy(options.orderBy, options.orderSort)
                 .then((result) => {
-                    resolve(result);
+
+                    resolve({
+                        totalCount: totalcount,
+                        data: result
+                    })
                 })
                 .catch((error) => {
                     reject(error);

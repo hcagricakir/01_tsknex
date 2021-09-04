@@ -3,3 +3,13 @@ export interface User {
     isim: string,
     lokasyon: string
 }
+
+export interface TotalCount {
+    count: number,
+}
+
+export interface List {
+    totalCount: number
+    data: User[]
+
+}
