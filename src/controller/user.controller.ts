@@ -14,19 +14,23 @@ export class UserController implements IRouterBase {
         this.userService = new UserServices();
         this.routes();
     }
-    getAllUsers(req: Request, res: Response, next: NextFunction) {
-        const options = req.paginationOptions;
-        // console.log(options.limit);
-        // console.log(options.orderBy);
-        // console.log(options.orderSort);
-        // console.log(options.skip);      
-        this.userService.getAllUsers(options).then(user => {
-            return res.send(new OperationSuccesfull(user));
+    async getAllUsers(req: Request, res: Response, next: NextFunction) {
+        const request = req.query;
+        await schema.list.validateAsync(request).then(() => {
+            const options = req.paginationOptions;
+            this.userService.getAllUsers(options).then(user => {
+                return res.send(new OperationSuccesfull(user));
+            })
+
+                .catch((err) => {
+                    next(err);
+                });
         })
 
-            .catch((err) => {
-                next(err);
-            });
+            .catch((err: Joi.ValidationError) => {
+                next(new ValidationError(err.message));
+            })
+
 
     }
     getUserbyId(req: Request, res: Response, next: NextFunction) {

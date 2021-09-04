@@ -12,5 +12,12 @@ const schema = {
         isim: Joi.string().min(1).max(25).optional(),
         lokasyon: Joi.string().min(1).max(25).optional()
     }),
+
+    list: Joi.object().keys({
+        limit: Joi.number().integer().optional(),
+        skip: Joi.number().integer().optional(),
+        orderBy: Joi.string().optional(),
+        orderSort: Joi.string().optional(),
+    })
 }
 export default schema;

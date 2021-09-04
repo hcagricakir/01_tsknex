@@ -31,10 +31,7 @@ async function paginationMiddleware(request: RequestPagination, res: Response, n
     else {
         paginationOptions.skip = 0;
     }
-    if (request.query.match) {
-        paginationOptions.enabled = true;
-        paginationOptions.match = Object(request.query.match);
-    }
+
 
     try {
         request.paginationOptions = paginationOptions;
